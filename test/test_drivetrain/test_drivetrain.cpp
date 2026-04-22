@@ -31,13 +31,13 @@ void setUp() {
 
     shield.begin();
     delete fl;
-    fl = new DCMotorWithEncoder(shield, 1, 2, 22, COUNTS_PER_REV, GEAR_RATIO, MAX_MOTOR_RPM);
+    fl = new DCMotorWithEncoder(shield, 1, 2, 14, COUNTS_PER_REV, GEAR_RATIO, MAX_MOTOR_RPM);
     delete fr;
-    fr = new DCMotorWithEncoder(shield, 2, 18, 23, COUNTS_PER_REV, GEAR_RATIO, MAX_MOTOR_RPM);
+    fr = new DCMotorWithEncoder(shield, 2, 18, 15, COUNTS_PER_REV, GEAR_RATIO, MAX_MOTOR_RPM);
     delete rl;
-    rl = new DCMotorWithEncoder(shield, 3, 19, 24, COUNTS_PER_REV, GEAR_RATIO, MAX_MOTOR_RPM);
+    rl = new DCMotorWithEncoder(shield, 3, 19, 16, COUNTS_PER_REV, GEAR_RATIO, MAX_MOTOR_RPM);
     delete rr;
-    rr = new DCMotorWithEncoder(shield, 4, 20, 25, COUNTS_PER_REV, GEAR_RATIO, MAX_MOTOR_RPM);
+    rr = new DCMotorWithEncoder(shield, 4, 20, 17, COUNTS_PER_REV, GEAR_RATIO, MAX_MOTOR_RPM);
     delete dt;
     dt = new MecanumDrivetrain(*fl, *fr, *rl, *rr, TRACK_WIDTH, WHEEL_BASE);
 }
@@ -242,10 +242,10 @@ void test_compensation_reduces_targets_when_saturated() {
 
     // Simulate all four motors achieving only ~203 RPM (19 pulses / 56 cpr in 100 ms).
     mock.timeMs = 100;
-    mock.digitalValues[22] = HIGH; // FL enc B
-    mock.digitalValues[23] = HIGH; // FR enc B
-    mock.digitalValues[24] = HIGH; // RL enc B
-    mock.digitalValues[25] = HIGH; // RR enc B
+    mock.digitalValues[14] = HIGH; // FL enc B
+    mock.digitalValues[15] = HIGH; // FR enc B
+    mock.digitalValues[16] = HIGH; // RL enc B
+    mock.digitalValues[17] = HIGH; // RR enc B
     for (int i = 0; i < 19; i++) {
         fl->_handleEncoder();
         fr->_handleEncoder();
@@ -277,8 +277,8 @@ void test_compensation_not_triggered_when_motors_reach_target() {
 
     // 14 pulses in 100 ms ≈ 150 RPM — matches the 150 RPM target
     mock.timeMs = 100;
-    mock.digitalValues[22] = HIGH; mock.digitalValues[23] = HIGH;
-    mock.digitalValues[24] = HIGH; mock.digitalValues[25] = HIGH;
+    mock.digitalValues[14] = HIGH; mock.digitalValues[15] = HIGH;
+    mock.digitalValues[16] = HIGH; mock.digitalValues[17] = HIGH;
     for (int i = 0; i < 14; i++) {
         fl->_handleEncoder(); fr->_handleEncoder();
         rl->_handleEncoder(); rr->_handleEncoder();
@@ -298,8 +298,8 @@ void test_compensation_resets_on_new_strafe() {
     // First strafe at 100% gets compensated down to ~203 RPM
     dt->strafe(0.0f, 1.0f, Speed::fromPercentage(100));
     mock.timeMs = 100;
-    mock.digitalValues[22] = HIGH; mock.digitalValues[23] = HIGH;
-    mock.digitalValues[24] = HIGH; mock.digitalValues[25] = HIGH;
+    mock.digitalValues[14] = HIGH; mock.digitalValues[15] = HIGH;
+    mock.digitalValues[16] = HIGH; mock.digitalValues[17] = HIGH;
     for (int i = 0; i < 19; i++) {
         fl->_handleEncoder(); fr->_handleEncoder();
         rl->_handleEncoder(); rr->_handleEncoder();

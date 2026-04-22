@@ -11,10 +11,10 @@
 //
 //  Encoders (14-pole magnetic, quadrature A+B):
 //    Motor   Enc A (ext. interrupt)   Enc B (digital)
-//    FL(M1)  Pin 2                    Pin 22
-//    FR(M2)  Pin 18                   Pin 23
-//    RL(M3)  Pin 19                   Pin 24
-//    RR(M4)  Pin 20                   Pin 25
+//    FL(M1)  Pin 2                    Pin 14
+//    FR(M2)  Pin 18                   Pin 15
+//    RL(M3)  Pin 19                   Pin 16
+//    RR(M4)  Pin 20                   Pin 17
 //
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -27,10 +27,10 @@ static constexpr float WHEEL_BASE_MM = 180.0f;
 
 L293DShield shield;
 
-DCMotorWithEncoder motorFL(shield, 1, 2, 22, COUNTS_PER_MOTOR_REV, GEAR_RATIO, MAX_MOTOR_RPM);
-DCMotorWithEncoder motorFR(shield, 2, 18, 23, COUNTS_PER_MOTOR_REV, GEAR_RATIO, MAX_MOTOR_RPM);
-DCMotorWithEncoder motorRL(shield, 3, 19, 24, COUNTS_PER_MOTOR_REV, GEAR_RATIO, MAX_MOTOR_RPM);
-DCMotorWithEncoder motorRR(shield, 4, 20, 25, COUNTS_PER_MOTOR_REV, GEAR_RATIO, MAX_MOTOR_RPM);
+DCMotorWithEncoder motorFL(shield, 1, 2, 14, COUNTS_PER_MOTOR_REV, GEAR_RATIO, MAX_MOTOR_RPM);
+DCMotorWithEncoder motorFR(shield, 2, 18, 15, COUNTS_PER_MOTOR_REV, GEAR_RATIO, MAX_MOTOR_RPM);
+DCMotorWithEncoder motorRL(shield, 3, 19, 16, COUNTS_PER_MOTOR_REV, GEAR_RATIO, MAX_MOTOR_RPM);
+DCMotorWithEncoder motorRR(shield, 4, 20, 17, COUNTS_PER_MOTOR_REV, GEAR_RATIO, MAX_MOTOR_RPM);
 
 MecanumDrivetrain drivetrain(motorFL, motorFR, motorRL, motorRR,
                              TRACK_WIDTH_MM, WHEEL_BASE_MM);
@@ -40,16 +40,26 @@ void setup() {
     shield.begin();
 
     // Example: strafe right at 60 % speed
-    drivetrain.strafe(1.0f, 0.0f, Speed::fromPercentage(60));
-    delay(1000);
+    drivetrain.strafe(1.0f, 0.0f, Speed::fromPercentage(100));
+    delay(10000);
+    
+    // Be kind to the motor. Stop before changing direction
+    drivetrain.stop();
+    delay(100);
 
     // Example: drive forward at 50 % speed
     drivetrain.strafe(0.0f, 1.0f);
     delay(1000);
+    
+    drivetrain.stop();
+    delay(100);
 
     // Example: spin CCW at 40 %
     drivetrain.strafe(0.0f, 0.0f, 1.0f, Speed::fromPercentage(40));
     delay(1000);
+    
+    drivetrain.stop();
+    delay(100);
 
     // Example: circle CCW with 300 mm radius
     drivetrain.circle(300.0f, Direction::Left, Speed::fromPercentage(50));

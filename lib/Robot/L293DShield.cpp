@@ -1,5 +1,9 @@
 #include "L293DShield.h"
 
+constexpr uint8_t L293DShield::_pwmPins[4];
+constexpr uint8_t L293DShield::_bitA[4];
+constexpr uint8_t L293DShield::_bitB[4];
+
 void L293DShield::begin() {
     pinMode(MOTORLATCH, OUTPUT);
     pinMode(MOTORCLK, OUTPUT);

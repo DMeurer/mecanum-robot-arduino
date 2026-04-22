@@ -11,7 +11,7 @@ static constexpr float MAX_MOTOR_RPM = 300.0f;
 // M1 pins
 static constexpr uint8_t PWM_PIN = 11; // M1 PWM
 static constexpr int ENC_A = 2;
-static constexpr int ENC_B = 22;
+static constexpr int ENC_B = 14;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 static L293DShield shield;
